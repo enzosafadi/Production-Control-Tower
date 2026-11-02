@@ -1,5 +1,10 @@
 # Production Control Tower
 
+## Project roadmap — concept to sale
+
+![Production-Control-Tower roadmap with navy current-position line](docs/project-roadmap.svg)
+
+
 ## Project Delivery & Resource Optimization
 
 **A portfolio preview of a production management web application built with Python and Streamlit.**
