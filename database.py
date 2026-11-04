@@ -3,6 +3,18 @@ import sqlite3
 
 DATABASE_NAME = "production_control.db"
 
+STATUSES = {"On Track", "At Risk", "Delayed", "Completed"}
+
+def validate_project(name, manager, status, progress):
+    if not isinstance(name, str) or not name.strip() or not isinstance(manager, str) or not manager.strip():
+        raise ValueError("Project name and manager are required.")
+    if not isinstance(status, str) or status not in STATUSES:
+        raise ValueError("Select a supported project status.")
+    if type(progress) is not int or not 0 <= progress <= 100:
+        raise ValueError("Progress must be an integer between 0 and 100.")
+
+
+
 
 # Connect to SQLite database
 def get_connection():
@@ -27,8 +39,7 @@ def initialize_database():
 
 # Create a new project
 def add_project(name, manager, status, progress):
-    if not 0 <= progress <= 100:
-        raise ValueError("Progress must be between 0 and 100.")
+    validate_project(name, manager, status, progress)
 
     with get_connection() as conn:
         cursor = conn.execute(
@@ -70,8 +81,7 @@ def update_project(
     status,
     progress
 ):
-    if not 0 <= progress <= 100:
-        raise ValueError("Progress must be between 0 and 100.")
+    validate_project(name, manager, status, progress)
 
     with get_connection() as conn:
         cursor = conn.execute(
@@ -106,3 +116,4 @@ def delete_project(project_id):
             (project_id,)
         )
         return cursor.rowcount > 0
+

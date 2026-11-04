@@ -18,6 +18,7 @@ STATUSES = ["On Track", "At Risk", "Delayed", "Completed"]
 
 st.title("Production Control Tower")
 st.subheader("Project Delivery & Resource Optimization")
+st.caption("Portfolio prototype - fictional sample projects and resources. Locally saved projects are separate from the sample dashboard.")
 
 # Sample production data
 projects = pd.DataFrame({
@@ -155,7 +156,9 @@ if saved_projects:
     if update_submitted:
         if not edit_name.strip():
             st.error("Project name cannot be empty.")
-        elif update_project(project[0], edit_name.strip(), edit_manager, edit_status, edit_progress):
+        elif not edit_manager.strip():
+            st.error("Project manager cannot be empty.")
+        elif update_project(project[0], edit_name.strip(), edit_manager.strip(), edit_status, edit_progress):
             st.success("Project updated successfully!")
             st.rerun()
         else:
@@ -179,3 +182,4 @@ if saved_projects:
             st.error("Project could not be deleted.")
 else:
     st.info("No projects available to delete.")
+
